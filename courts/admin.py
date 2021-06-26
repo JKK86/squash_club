@@ -11,5 +11,5 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Court)
 class CourtAdmin(admin.ModelAdmin):
-    list_display = ['category', 'number', 'air-condition', 'lighting', ]
+    list_display = ['category', 'number', 'air_condition', 'lighting', ]
     list_filter = ['category', ]
