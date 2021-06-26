@@ -1,3 +1,15 @@
 from django.contrib import admin
 
-# Register your models here.
+from courts.models import Category, Court
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+    list_display = ['name', 'slug', ]
+
+
+@admin.register(Court)
+class CourtAdmin(admin.ModelAdmin):
+    list_display = ['category', 'number', 'air-condition', 'lighting', ]
+    list_filter = ['category', ]
