@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Harmonogram
+{% endblock %}
+
+{% block content %}
+    <table>
+    <thead>
+        <tr>
+        <th></th>
+        {% for date in dates %}
+            <th>
+                {{ date | date:"d E Y" }} <br/>
+                {{ date | date:"l" }}
+            </th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+        {% for time in times %}
+            <tr>
+                <td>{{ time | time:"H:i" }}</td>
+                {% for date in dates %}
+                    <td>
+                    <button>
+                        <a href="{% url 'reserve_court' date.year date.month date.day time.hour %}">
+                            Rezerwuj
+                        </a>
+                    </button>
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+{% endblock %}
