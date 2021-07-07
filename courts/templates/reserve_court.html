@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}
+Rezerwacja kortu
+{% endblock %}
+{% block content %}
+    <h1>Rezerwacja kortu na godzinę {{ time | time:"H:i" }} w dniu {{ date | date:"d E (l)" }}</h1>
+    <p>Wybierz kort: </p>
+    <form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+        <input type="submit" value="Zarezrerwuj">
+    </form>
+{% endblock %}

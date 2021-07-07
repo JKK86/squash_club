@@ -3,6 +3,8 @@ import datetime
 from django.shortcuts import render
 from django.views import View
 
+from courts.forms import ReserveCourtForm
+
 
 class ScheduleView(View):
     def get(self, request):
@@ -19,5 +21,8 @@ class ScheduleView(View):
 
 
 class ReserveView(View):
-    # def get(self, request, year, month, day, hour):
-    pass
+    def get(self, request, year, month, day, hour):
+        date = datetime.date(year, month, day)
+        time = datetime.time(hour)
+        form = ReserveCourtForm(date, time)
+        return render(request, 'reserve_court.html', {'form': form, 'date': date, 'time': time})

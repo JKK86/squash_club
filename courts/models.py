@@ -17,7 +17,7 @@ class Category(models.Model):
 
 class Court(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="courts", verbose_name="Kategoria")
-    number = models.PositiveIntegerField(verbose_name="Numer kortu")
+    number = models.PositiveIntegerField(verbose_name="Numer kortu", unique=True)
     air_condition = models.BooleanField(default=False, verbose_name="Klimatyzacja")
     lighting = models.BooleanField(default=True, verbose_name="Oświetlenie")
 
@@ -27,7 +27,7 @@ class Court(models.Model):
     class Meta:
         verbose_name = "kort"
         verbose_name_plural = "Korty"
-        ordering = ("number", )
+        ordering = ("number",)
 
 
 class Reservation(models.Model):
@@ -36,6 +36,7 @@ class Reservation(models.Model):
     date = models.DateField(verbose_name="Data rezerwacji")
     time = models.TimeField(verbose_name="Godzina rezerwacji")
     duration = models.PositiveIntegerField(verbose_name="Czas rezerwacji", default=1)
+    price = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Cena")
     paid = models.BooleanField(default=False, verbose_name="Opłacone")
     status = models.BooleanField(default=False, verbose_name="Status")
     comments = models.TextField(verbose_name="Komentarz", null=True, blank=True)
