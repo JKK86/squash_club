@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from courts.models import Category, Court, Reservation
+from courts.models import Category, Court, Reservation, PriceList
 
 
 @admin.register(Category)
@@ -12,6 +12,12 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Court)
 class CourtAdmin(admin.ModelAdmin):
     list_display = ['category', 'number', 'air_condition', 'lighting', ]
+    list_filter = ['category', ]
+
+
+@admin.register(PriceList)
+class PriceListAdmin(admin.ModelAdmin):
+    list_display = ['category', 'date', 'start_time', ]
     list_filter = ['category', ]
 
 

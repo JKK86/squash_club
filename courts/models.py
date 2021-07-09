@@ -30,6 +30,20 @@ class Court(models.Model):
         ordering = ("number",)
 
 
+class PriceList(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="prices", verbose_name="Kategoria")
+    date = models.DateField(verbose_name="Data rezerwacji")
+    start_time = models.TimeField(verbose_name="Godzina rezerwacji")
+
+    def __str__(self):
+        return f"Gruoa cenowa {self.id}"
+
+    class Meta:
+        verbose_name = "cennik"
+        verbose_name_plural = "Grupy cenowe"
+        constraints = [models.UniqueConstraint(fields=["court", "date", "time"], name="unique_reservation")]
+
+
 class Reservation(models.Model):
     court = models.ForeignKey(Court, on_delete=models.CASCADE, related_name="reservations", verbose_name="Kort")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Użytkownik")
