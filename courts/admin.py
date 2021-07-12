@@ -17,8 +17,9 @@ class CourtAdmin(admin.ModelAdmin):
 
 @admin.register(PriceList)
 class PriceListAdmin(admin.ModelAdmin):
-    list_display = ['category', 'date', 'start_time', ]
-    list_filter = ['category', ]
+    list_display = ['category', 'weekend', 'hour', 'price']
+    list_filter = ['category', 'weekend']
+    list_editable = ['price']
 
 
 @admin.register(Reservation)

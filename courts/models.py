@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from squash_club import settings
@@ -32,16 +33,25 @@ class Court(models.Model):
 
 class PriceList(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="prices", verbose_name="Kategoria")
-    date = models.DateField(verbose_name="Data rezerwacji")
-    start_time = models.TimeField(verbose_name="Godzina rezerwacji")
+    weekend = models.BooleanField(default=False)
+    hour = models.IntegerField(choices=[(x, x) for x in range(0, 24)],
+                               verbose_name="Godzina", null=True, blank=True)
+    price = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Cena")
 
     def __str__(self):
-        return f"Gruoa cenowa {self.id}"
+        return f"{self.category}: plan cenowy na godzinę {self.hour} {'w weekend' if self.weekend else ''}"
 
     class Meta:
         verbose_name = "cennik"
-        verbose_name_plural = "Grupy cenowe"
-        constraints = [models.UniqueConstraint(fields=["court", "date", "time"], name="unique_reservation")]
+        verbose_name_plural = "Plany cenowe"
+        constraints = [models.UniqueConstraint(fields=["category", "weekend", "hour"], name="unique_price")]
+        ordering = ["category", "weekend", "hour"]
+
+    def clean(self):
+        if self.weekend and self.hour:
+            raise ValidationError("Cena weekendowa obowiązuje przez cały dzień. Nie podawaj godziny.")
+        if not self.weekend and not self.hour:
+            raise ValidationError("Cena w tygodniu nie jest jednakowa w ciągu dnia. Uzupełnij godzinę.")
 
 
 class Reservation(models.Model):
