@@ -18,14 +18,19 @@ Harmonogram
     </tr>
     </thead>
     <tbody>
-        {% for time in times %}
+        {% for price in prices %}
             <tr>
-                <td>{{ time | time:"H:i" }}</td>
+                <td>{{ price.get_time_display | time:"H:i" }}</td>
                 {% for date in dates %}
                     <td>
                     <button>
-                        <a href="{% url 'reserve_court' date.year date.month date.day time.hour %}">
-                            Rezerwuj
+                        <a href="{% url 'reserve_court' date.year date.month date.day price.get_time_display.hour %}">
+                            Rezerwuj <br>
+                            {% if date|date:"l" == "Sobota" or date|date:"l" == "Niedziela" %}
+                                {{ weekend_price.price }} zł
+                            {% else %}
+                                {{ price.price }} zł
+                            {% endif %}
                         </a>
                     </button>
                     </td>
