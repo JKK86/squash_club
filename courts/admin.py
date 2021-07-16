@@ -24,7 +24,7 @@ class PriceListAdmin(admin.ModelAdmin):
 
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
-    list_display = ['court', 'user', 'date', 'time', 'duration', 'paid', 'status', 'comments', 'created']
+    list_display = ['court', 'user', 'date', 'time', 'duration', 'paid', 'status', 'comment', 'created']
     list_filter = ['court', 'date', 'paid', 'status']
     search_fields = ['user']
     exclude = ['paid', 'created']

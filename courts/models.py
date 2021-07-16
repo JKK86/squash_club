@@ -65,7 +65,7 @@ class Reservation(models.Model):
     price = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Cena")
     paid = models.BooleanField(default=False, verbose_name="Opłacone")
     status = models.BooleanField(default=False, verbose_name="Status")
-    comments = models.TextField(verbose_name="Komentarz", null=True, blank=True)
+    comment = models.TextField(verbose_name="Komentarz", null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Data utworzenia")
 
     def __str__(self):
