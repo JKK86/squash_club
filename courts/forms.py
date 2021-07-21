@@ -4,7 +4,7 @@ from courts.models import Court
 
 
 class ReserveCourtForm(forms.Form):
-    court = forms.ModelChoiceField(Court.objects.all())
+    court = forms.ModelChoiceField(Court.objects.all(), empty_label=None)
     comment = forms.CharField(widget=forms.Textarea, required=False)
 
     def __init__(self, date, time, *args, **kwargs):

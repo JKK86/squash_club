@@ -6,4 +6,6 @@ Potwierdzenie rezerwacji
 <h1>Potwierdzenie rezerwacji</h1>
     <p>Rezerwacja nr {{ reservation.id }} na kort nr {{ reservation.court.number }} w dniu {{ reservation.date }}
     na godzinę {{ reservation.time }} została zrealizowana pomyślnie</p>
+    <p>Powrót na <a href="">stronę główną</a></p>
+    <p>Powrót na <a href="{% url 'schedule' %}">stronę rezerwacji</a></p>
 {% endblock %}
