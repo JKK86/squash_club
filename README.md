@@ -37,6 +37,5 @@ Now you can run the project with this command:
 ```
 python manage.py runserver
 ```
-**Note** if you want payments to work you will need to enter your own Braintree keys in the settings file.
 
 **Note** in the settings file you should complete your own database settings.
