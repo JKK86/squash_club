@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views import View
 
 from courts.forms import ReserveCourtForm
-from courts.models import Reservation, PriceList
+from courts.models import Reservation, PriceList, Court
 
 User = get_user_model()
 
@@ -19,6 +19,10 @@ class ScheduleView(View):
             dates.append(present + i * day)
         prices = PriceList.objects.filter(weekend=False)
         weekend_price = PriceList.objects.get(weekend=True)
+        # reservations = Reservation.objects.all()
+        # times = [price.get_time_display() for price in prices]
+        #
+        # reservations.filter(date)
         return render(request, 'schedule.html', {"dates": dates, "prices": prices, "weekend_price": weekend_price})
 
 

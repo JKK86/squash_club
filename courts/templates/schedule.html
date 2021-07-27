@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load courts_tags %}
 {% block title %}
 Harmonogram
 {% endblock %}
@@ -24,6 +24,10 @@ Harmonogram
                 {% for date in dates %}
                     <td>
                     <button>
+                        {% check_if_courts_reserved date price.get_time_display as courts_reserved %}
+                        {% if courts_reserved %}
+                            Brak wolnych kortów
+                        {% else %}
                         <a href="{% url 'reserve_court' date.year date.month date.day price.get_time_display.hour %}">
                             Rezerwuj <br>
                             {% if date|date:"l" == "Sobota" or date|date:"l" == "Niedziela" %}
@@ -32,6 +36,7 @@ Harmonogram
                                 {{ price.price }} zł
                             {% endif %}
                         </a>
+                    {% endif %}
                     </button>
                     </td>
                 {% endfor %}
