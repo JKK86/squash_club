@@ -19,10 +19,6 @@ class ScheduleView(View):
             dates.append(present + i * day)
         prices = PriceList.objects.filter(weekend=False)
         weekend_price = PriceList.objects.get(weekend=True)
-        # reservations = Reservation.objects.all()
-        # times = [price.get_time_display() for price in prices]
-        #
-        # reservations.filter(date)
         return render(request, 'schedule.html', {"dates": dates, "prices": prices, "weekend_price": weekend_price})
 
 
@@ -48,6 +44,7 @@ class ReserveView(View):
             price = PriceList.objects.get(time=time.strftime("%-H"))
         if form.is_valid():
             court = form.cleaned_data['court']
+            discount = form.cleaned_data['discount']
             comment = form.cleaned_data['comment']
             reservation = Reservation.objects.create(
                 court=court,

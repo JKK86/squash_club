@@ -84,5 +84,6 @@ class Reservation(models.Model):
 
 
 class Discount(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Kategoria", related_name="discounts")
     name = models.CharField(max_length=32, verbose_name="Nazwa")
     discount = models.PositiveIntegerField(verbose_name="Zniżka")
