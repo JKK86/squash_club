@@ -62,6 +62,12 @@ class Reservation(models.Model):
     date = models.DateField(verbose_name="Data rezerwacji")
     time = models.TimeField(verbose_name="Godzina rezerwacji")
     duration = models.PositiveIntegerField(verbose_name="Czas rezerwacji", default=1)
+    discount = models.ForeignKey("Discount",
+                                 on_delete=models.SET_NULL,
+                                 null=True,
+                                 blank="True",
+                                 verbose_name="Zniżka",
+                                 related_name="reservations")
     price = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Cena")
     paid = models.BooleanField(default=False, verbose_name="Opłacone")
     status = models.BooleanField(default=False, verbose_name="Status")
@@ -75,3 +81,8 @@ class Reservation(models.Model):
         verbose_name = "rezerwacja"
         verbose_name_plural = "Rezerwacje"
         constraints = [models.UniqueConstraint(fields=["court", "date", "time"], name="unique_reservation")]
+
+
+class Discount(models.Model):
+    name = models.CharField(max_length=32, verbose_name="Nazwa")
+    discount = models.PositiveIntegerField(verbose_name="Zniżka")
