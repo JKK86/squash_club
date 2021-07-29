@@ -46,13 +46,17 @@ class ReserveView(View):
             court = form.cleaned_data['court']
             discount = form.cleaned_data['discount']
             comment = form.cleaned_data['comment']
+            if discount:
+                total_price = price.price - discount.discount
+            else:
+                total_price = price.price
             reservation = Reservation.objects.create(
                 court=court,
                 user=user,
                 date=date,
                 time=time,
                 # duration=duration,
-                price=price.price,
+                price=total_price,
                 comment=comment
             )
             return render(request, "reservation_confirm.html", {'reservation': reservation})
