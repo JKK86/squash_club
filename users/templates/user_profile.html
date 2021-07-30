@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}
+    Panel użytkownika
+{% endblock %}
+{% block content %}
+    <h1>Panel użytkownika</h1>
+    <hr/>
+    <h3>Ustawienia konta</h3>
+    <p>Imię i nazwisko: {{ user.first_name }} {{ user.last_name }}</p>
+    <p>Adres e-mail: {{ user.email }}</p>
+    <p><a href="">Edycja profilu</a></p>
+    <p><a href="">Zmiana hasła</a></p>
+    <hr/>
+    <h3>Twoje rezerwacje</h3>
+    {% if not reservations %}
+        Brak historii rezerwacji
+    {% else %}
+        <table>
+            <thead>
+            <tr>
+                <th>Numer rezerwacji</th>
+                <th>Data</th>
+                <th>Godzina</th>
+                <th>Czas trwania</th>
+                <th>Numer kortu</th>
+                <th>Zniżka</th>
+                <th>Cena</th>
+                <th>Data utworzenia</th>
+                <th>Status</th>
+                <th>Komentarz</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.id }}</td>
+                    <td>{{ reservation.date }}</td>
+                    <td>{{ reservation.time }}</td>
+                    <td>{{ reservation.duration }} h</td>
+                    <td>{{ reservation.court.number }}</td>
+                    <td>
+                        {% if reservation.discount %}
+                        {{ reservation.discount }}
+                            {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>{{ reservation.price }}</td>
+                    <td>{{ reservation.created }}</td>
+                    <td>{{ reservation.status }}</td>
+                    <td>{{ reservation.comment }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

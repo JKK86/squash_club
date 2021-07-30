@@ -2,8 +2,10 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import FormView
 
+from courts.models import Reservation
 from users.forms import RegistrationForm
 
 User = get_user_model()
@@ -24,3 +26,10 @@ class RegistrationView(FormView):
         )
         messages.success(self.request, "Użytkownik został pomyślnie zarejestrowany")
         return super().form_valid(form)
+
+
+class UserProfileView(View):
+    def get(self, request):
+        user = request.user
+        reservations = Reservation.objects.filter(user=user)
+        return render(request, 'user_profile.html', {'reservations': reservations})
