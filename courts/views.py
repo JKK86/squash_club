@@ -6,6 +6,7 @@ from django.views import View
 
 from courts.forms import ReserveCourtForm
 from courts.models import Reservation, PriceList, Court
+from courts.tasks import reservation_confirm
 
 User = get_user_model()
 
@@ -59,6 +60,7 @@ class ReserveView(View):
                 price=total_price,
                 comment=comment
             )
+            reservation_confirm.delay(reservation.id)
             return render(request, "reservation_confirm.html", {'reservation': reservation})
         else:
             return render(request, 'reserve_court.html', {'form': form, 'date': date, 'time': time, 'price': price})
