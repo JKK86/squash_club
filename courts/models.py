@@ -3,6 +3,7 @@ import datetime
 from django.core.exceptions import ValidationError
 from django.db import models
 
+from courts.fields import OrderField
 from squash_club import settings
 
 
@@ -20,17 +21,17 @@ class Category(models.Model):
 
 class Court(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="courts", verbose_name="Kategoria")
-    number = models.PositiveIntegerField(verbose_name="Numer kortu", unique=True)
+    order = OrderField(blank=True, for_fields=['category'], verbose_name="Numer kortu", unique=True)
     air_condition = models.BooleanField(default=False, verbose_name="Klimatyzacja")
     lighting = models.BooleanField(default=True, verbose_name="Oświetlenie")
 
     def __str__(self):
-        return f"Kort nr {self.number}"
+        return f"Kort nr {self.order}"
 
     class Meta:
         verbose_name = "kort"
         verbose_name_plural = "Korty"
-        ordering = ("number",)
+        ordering = ("order",)
 
 
 class PriceList(models.Model):
