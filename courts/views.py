@@ -1,7 +1,8 @@
 import datetime
 
+from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 
 from courts.forms import ReserveCourtForm
@@ -64,3 +65,18 @@ class ReserveView(View):
             return render(request, "reservation_confirm.html", {'reservation': reservation})
         else:
             return render(request, 'reserve_court.html', {'form': form, 'date': date, 'time': time, 'price': price})
+
+
+class CancelReservationView(View):
+    def post(self, request, reservation_id):
+        reservation = Reservation.objects.get(pk=reservation_id)
+        user = request.user
+        now = datetime.datetime.now()
+        if user == reservation.user and now + datetime.timedelta(hours=24) <= datetime.datetime.combine(
+                reservation.date, reservation.time):
+            reservation.delete()
+        else:
+            messages.warning(request,
+                             "Nie można anulować tej rezerwacji "
+                             "- zostało mniej niż 24 godziny lub użytkownik nie ma uprawnień")
+        return redirect('user_profile')
