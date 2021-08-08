@@ -16,15 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from courts import views as courts_views
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('users.urls')),
-
-
-    path('schedule/', courts_views.ScheduleView.as_view(), name="schedule"),
-    path('reservation/<int:year>/<int:month>/<int:day>/<int:hour>/', courts_views.ReserveView.as_view(),
-         name="reserve_court"),
-
+    path('courts/', include('courts.urls')),
 ]

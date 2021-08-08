@@ -58,7 +58,7 @@
                     <td>{{ reservation.status }}</td>
                     <td>{{ reservation.comment }}</td>
                     <td>
-                        <form action="{% url 'cancel_reservation' %}" method="post">
+                        <form action="{% url 'cancel_reservation' reservation.id %}" method="post">
                             {% csrf_token %}
                             <input class="btn-delete" type="submit" value="Anuluj rezerwację">
                         </form>
