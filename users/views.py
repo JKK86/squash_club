@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.shortcuts import render
@@ -32,4 +34,11 @@ class UserProfileView(View):
     def get(self, request):
         user = request.user
         reservations = Reservation.objects.filter(user=user)
+        now = datetime.datetime.now()
+        for reservation in reservations:
+            if now > datetime.datetime.combine(reservation.date, reservation.time):
+                reservation.status = True
+            reservation.frozen = now + datetime.timedelta(hours=24) > datetime.datetime.combine(
+                    reservation.date, reservation.time)
         return render(request, 'user_profile.html', {'reservations': reservations})
+

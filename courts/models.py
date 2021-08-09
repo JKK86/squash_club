@@ -82,6 +82,7 @@ class Reservation(models.Model):
         verbose_name = "rezerwacja"
         verbose_name_plural = "Rezerwacje"
         constraints = [models.UniqueConstraint(fields=["court", "date", "time"], name="unique_reservation")]
+        ordering = ["-date", "-time", "id"]
 
 
 class Discount(models.Model):
