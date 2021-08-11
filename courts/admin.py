@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from courts.models import Category, Court, Reservation, PriceList
+from courts.models import Category, Court, Reservation, PriceList, Discount
 
 
 @admin.register(Category)
@@ -28,3 +28,10 @@ class ReservationAdmin(admin.ModelAdmin):
     list_filter = ['court', 'date', 'paid', 'status']
     search_fields = ['user']
     exclude = ['paid', 'created']
+
+
+@admin.register(Discount)
+class DiscountAdmin(admin.ModelAdmin):
+    list_display = ['category', 'name', 'discount']
+    list_filter = ['category']
+    list_editable = ['discount']
