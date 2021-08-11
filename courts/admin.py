@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from courts.models import Category, Court, Reservation, PriceList, Discount
+from users.models import Profile
 
 
 @admin.register(Category)
@@ -35,3 +36,8 @@ class DiscountAdmin(admin.ModelAdmin):
     list_display = ['category', 'name', 'discount']
     list_filter = ['category']
     list_editable = ['discount']
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'phone_number']
