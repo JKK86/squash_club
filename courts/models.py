@@ -96,3 +96,19 @@ class Discount(models.Model):
     class Meta:
         verbose_name = "zniżka"
         verbose_name_plural = "Zniżki"
+
+
+class Notification(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Użytkownik")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Kategoria")
+    date = models.DateTimeField(verbose_name="Data")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Data utworzenia")
+
+    def __str__(self):
+        return f"Powiadomienie dla użytkownika {self.user.username} o zwolnieniu kortu do {self.category} " \
+               f"w terminie {self.date}"
+
+    class Meta:
+        verbose_name = "powiadomienie"
+        verbose_name_plural = "Powiadomienia"
+        ordering = ['-date']
