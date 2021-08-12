@@ -5,9 +5,10 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import render, redirect
 from django.views import View
 
-from courts.forms import ReserveCourtForm
-from courts.models import Reservation, PriceList, Court
+from courts.forms import ReserveCourtForm, AddPhoneNumberForm
+from courts.models import Reservation, PriceList, Court, Notification, Category
 from courts.tasks import reservation_confirm
+from users.models import Profile
 
 User = get_user_model()
 
@@ -80,3 +81,28 @@ class CancelReservationView(View):
                              "Nie można anulować tej rezerwacji "
                              "- zostało mniej niż 24 godziny lub użytkownik nie ma uprawnień")
         return redirect('user_profile')
+
+
+class AddNotificationView(View):
+    def get(self, request, category_slug, year, month, day, hour):
+        date = datetime.date(year, month, day)
+        time = datetime.time(hour)
+        user = request.user
+        form = AddPhoneNumberForm(initial={"phone_number": user.profile.phone_number})
+        return render(request, 'notification_form.html', {"date": date, "time": time, "form": form})
+
+    def post(self, request, category_slug, year, month, day, hour):
+        date = datetime.date(year, month, day)
+        time = datetime.time(hour)
+        category = Category.objects.get(slug=category_slug)
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        form = AddPhoneNumberForm(request.POST)
+        if form.is_valid():
+            phone_number = form.cleaned_data['phone_number']
+            if phone_number != user.profile.phone_number:
+                profile.phone_number = phone_number
+                profile.save()
+            Notification.objects.create(user=user, category=category, date=datetime.datetime.combine(date, time))
+            messages.info(request, "Powiadomimy Cię, jak tylko zwolni się kort w wybranym przez Ciebie terminie.")
+        return redirect('schedule')

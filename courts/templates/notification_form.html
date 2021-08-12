@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}
+WYślij powiadomienie
+{% endblock %}
+{% block content %}
+<h1>Wyślij powiadomienie</h1>
+    <p>{{ date|date:"l d E Y" }}, g. {{ time }}</p>
+    <hr/>
+    <p>Brak wolnych kortów w wybranym terminie. Podaj swój numer telefonu, aby otrzymać powiadomienie,
+        jeśli któryś z kortów się zwolni</p>
+    <form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+        <input type="submit" value="Potwierdź">
+    </form>
+{% endblock %}

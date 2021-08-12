@@ -1,48 +1,57 @@
 {% extends 'base.html' %}
 {% load courts_tags %}
 {% block title %}
-Harmonogram
+    Harmonogram
 {% endblock %}
 
 {% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <table>
-    <thead>
+        <thead>
         <tr>
-        <th></th>
-        {% for date in dates %}
-            <th>
-                {{ date | date:"d E Y" }} <br/>
-                {{ date | date:"l" }}
-            </th>
-        {% endfor %}
-    </tr>
-    </thead>
-    <tbody>
+            <th></th>
+            {% for date in dates %}
+                <th>
+                    {{ date | date:"d E Y" }} <br/>
+                    {{ date | date:"l" }}
+                </th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
         {% for price in prices %}
             <tr>
                 <td>{{ price.get_time_display | time:"H:i" }}</td>
                 {% for date in dates %}
                     <td>
-                    <button>
-                        {% check_if_courts_reserved date price.get_time_display as courts_reserved %}
-                        {% if courts_reserved %}
-                            Brak wolnych kortów
-                        {% else %}
-                        <a href="{% url 'reserve_court' date.year date.month date.day price.get_time_display.hour %}">
-                            Rezerwuj <br>
-                            {% if date|date:"l" == "Sobota" or date|date:"l" == "Niedziela" %}
-                                {{ weekend_price.price }} zł
+                        <button>
+                            {% check_if_courts_reserved date price.get_time_display as courts_reserved %}
+                            {% if courts_reserved %}
+                                Brak wolnych kortów <br>
+                                <a href="{% url 'add_notification' price.category.slug date.year date.month date.day price.get_time_display.hour %}">Wyślij
+                                    powiadomienie</a>
                             {% else %}
-                                {{ price.price }} zł
+                                <a href="{% url 'reserve_court' date.year date.month date.day price.get_time_display.hour %}">
+                                    Rezerwuj <br>
+                                    {% if date|date:"l" == "Sobota" or date|date:"l" == "Niedziela" %}
+                                        {{ weekend_price.price }} zł
+                                    {% else %}
+                                        {{ price.price }} zł
+                                    {% endif %}
+                                </a>
                             {% endif %}
-                        </a>
-                    {% endif %}
-                    </button>
+                        </button>
                     </td>
                 {% endfor %}
             </tr>
         {% endfor %}
-    </tbody>
+        </tbody>
     </table>
 
 {% endblock %}
