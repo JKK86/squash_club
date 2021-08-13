@@ -7,7 +7,7 @@ register = template.Library()
 
 @register.simple_tag
 def check_if_courts_reserved(date, time):
-    if Court.objects.exclude(reservations__date=date, reservations__time=time):
-        return False
-    else:
+    if Court.objects.filter(reservations__date=date, reservations__time=time).count() == Court.objects.count():
         return True
+    else:
+        return False
