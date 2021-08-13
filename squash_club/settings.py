@@ -123,6 +123,8 @@ AUTH_USER_MODEL = 'users.User'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+SMS_BACKEND = 'sms.backends.console.SmsBackend'
+
 try:
     from squash_club.local_settings import DATABASES
 except ModuleNotFoundError:

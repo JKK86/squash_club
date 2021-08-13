@@ -111,4 +111,4 @@ class Notification(models.Model):
     class Meta:
         verbose_name = "powiadomienie"
         verbose_name_plural = "Powiadomienia"
-        ordering = ['-date']
+        ordering = ['-date', 'created']

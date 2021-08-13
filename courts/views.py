@@ -7,7 +7,7 @@ from django.views import View
 
 from courts.forms import ReserveCourtForm, AddPhoneNumberForm
 from courts.models import Reservation, PriceList, Court, Notification, Category
-from courts.tasks import reservation_confirm
+from courts.tasks import reservation_confirm, send_sms_notification
 from users.models import Profile
 
 User = get_user_model()
@@ -73,8 +73,15 @@ class CancelReservationView(View):
         reservation = Reservation.objects.get(pk=reservation_id)
         user = request.user
         now = datetime.datetime.now()
+        date = reservation.date
+        time = reservation.time
         if user == reservation.user and now + datetime.timedelta(hours=24) <= datetime.datetime.combine(
-                reservation.date, reservation.time):
+                date, time):
+            if not Court.objects.exclude(reservations__date=date, reservations__time=time):
+                notification = Notification.objects.filter(date=datetime.datetime.combine(date, time)).first()
+                if notification:
+                    send_sms_notification.delay(notification.id)
+                    notification.delete()
             reservation.delete()
         else:
             messages.warning(request,
