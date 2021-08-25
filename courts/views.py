@@ -15,7 +15,7 @@ User = get_user_model()
 
 class LandingPageView(View):
     def get(self, request):
-        return render(request, 'landing_page')
+        return render(request, 'landing_page.html', {})
 
 
 class ScheduleView(View):
