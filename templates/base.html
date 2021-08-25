@@ -13,6 +13,8 @@
     <div class="menu">
         <a href="">Strona główna</a>
         <a href="{% url 'schedule' %}">Rezerwacja</a>
+    </div>
+    <div class="user">
         {% if user.is_authenticated %}
             <span>Witaj {{ user.first_name }}!</span>
             <a href="{% url 'user_profile' %}">Profil</a>

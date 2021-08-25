@@ -1,0 +1,16 @@
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: darkorange;
+    padding: 20px 10px;
+}
+
+#header a {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+    padding: 10px 10px;
+}
