@@ -13,6 +13,11 @@ from users.models import Profile
 User = get_user_model()
 
 
+class LandingPageView(View):
+    def get(self, request):
+        return render(request, 'landing_page')
+
+
 class ScheduleView(View):
     def get(self, request):
         present = datetime.date.today()

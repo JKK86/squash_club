@@ -10,13 +10,24 @@
 </head>
 <body>
 <div id="header">
-
+    <div class="menu">
+        <a href="">Strona główna</a>
+        <a href="{% url 'schedule' %}">Rezerwacja</a>
+        {% if user.is_authenticated %}
+            <span>Witaj {{ user.first_name }}!</span>
+            <a href="{% url 'user_profile' %}">Profil</a>
+            <a href="{% url 'logout' %}">Wyloguj</a>
+            {% else %}
+            <a href="{% url 'login' %}">Zaloguj</a>
+            <a href="{% url 'registration' %}">Załóż konto</a>
+        {% endif %} 
+    </div>
 </div>
 
 <div id="content">
-{% block content %}
+    {% block content %}
 
-{% endblock %}
+    {% endblock %}
 </div>
 </body>
 </html>
