@@ -5,9 +5,17 @@ A squash/tennis club management web application with court reservation system, b
 ## Technologies:
 - Python
 - Django
+- Celery
 - JavaScript
 - HTML
 - CSS
+
+## Features:
+- user authorization (register, login, logout, edit profile, change password, reset password)
+- courts reservation system
+- e-mail and sms notifications
+- user panel with reservation history
+- admin panel
 
 ## Setup
 
