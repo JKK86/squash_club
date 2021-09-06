@@ -2,11 +2,12 @@ import datetime
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
 
 from courts.forms import ReserveCourtForm, AddPhoneNumberForm
-from courts.models import Reservation, PriceList, Court, Notification, Category
+from courts.models import Reservation, PriceList, Court, Notification, Category, Discount
 from courts.tasks import reservation_confirm, send_sms_notification
 from users.models import Profile
 
@@ -39,6 +40,12 @@ class ReserveView(View):
             price = PriceList.objects.get(weekend=True)
         else:
             price = PriceList.objects.get(time=time.strftime("%-H"))
+
+        if request.is_ajax():
+            discount = Discount.objects.get(pk=request.GET['discount'])
+            price_after_discount = max(price.price - discount.discount, 0)
+            return JsonResponse({"total_price": price_after_discount})
+
         return render(request, 'reserve_court.html', {'form': form, 'date': date, 'time': time, 'price': price})
 
     def post(self, request, year, month, day, hour):
