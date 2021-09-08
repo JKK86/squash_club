@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Potwierdzenie płatności
+{% endblock %}
+{% block content %}
+<h1>Płatność zakończyła się sukcesem</h1>
+    <p>Dziękujemy! Twoja płatność została odnotowana</p>
+    <p><a href="{% url 'landing_page' %}">Powrót na stronę główną</a></p>
+
+{% endblock %}

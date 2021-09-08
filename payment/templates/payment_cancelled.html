@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Anulowanie płatności
+{% endblock %}
+{% block content %}
+<h1>Płatność nie powiodła się</h1>
+    <p>Wystąpił problem podczas przetwarzania płatności</p>
+    <p><a href="{% url 'landing_page' %}">Powrót na stronę główną</a></p>
+
+{% endblock %}

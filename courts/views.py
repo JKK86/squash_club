@@ -75,7 +75,9 @@ class ReserveView(View):
                 comment=comment
             )
             reservation_confirm.delay(reservation.id)
-            return render(request, "reservation_confirm.html", {'reservation': reservation})
+            request.session['reservation_id'] = reservation.id
+            return redirect('payment_process')
+            # return render(request, "reservation_confirm.html", {'reservation': reservation})
         else:
             return render(request, 'reserve_court.html', {'form': form, 'date': date, 'time': time, 'price': price})
 

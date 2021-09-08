@@ -74,6 +74,7 @@ class Reservation(models.Model):
     status = models.BooleanField(default=False, verbose_name="Status")
     comment = models.TextField(verbose_name="Komentarz", null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Data utworzenia")
+    braintree_id = models.CharField(max_length=128, blank=True)
 
     def __str__(self):
         return f"Rezerwacja nr {self.id}"
